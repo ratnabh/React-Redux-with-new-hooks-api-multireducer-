@@ -40,7 +40,8 @@ npm start
 The Application Runs on **localhost:3000**
 
 To go to login page just go to -
-**localhost:3000/login
+
+**localhost:3000/login**
 
 
 ## Resources
