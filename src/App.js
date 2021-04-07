@@ -1,25 +1,40 @@
-import React from "react";
-import { vehicleAction } from "./actions";
+import React, { useEffect } from "react";
+import { speechAction } from "./actions";
 import { useSelector, useDispatch } from "react-redux";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 function App() {
+  const {
+    transcript,
+    resetTranscript,
+    finalTranscript,
+  } = useSpeechRecognition();
   const dispatch = useDispatch();
+  const userName = useSelector((state) => state.fetch.name);
 
-  const counter = useSelector((state) => {
-    console.log(state);
-    return { data: state.fetch.data,item:state.fetch1.data };
-  });
+  useEffect(() => {
+    if (finalTranscript.length > 0) {
+      SpeechRecognition.abortListening();
+      // setTimeout(() => {
+      console.log(transcript);
+      dispatch(speechAction(transcript));
+      resetTranscript();
+      // }, 2000);
+      // dispatch(userResponseChat(finalTranscript));
+    }
+  }, [finalTranscript]);
 
-  const handlefetch = () => {
-    dispatch(vehicleAction("123"));
+  const handleSpeak = () => {
+    SpeechRecognition.startListening();
   };
 
   return (
     <div className="App">
-      <button onClick={handlefetch}>fetch</button>
-      {counter.data.map((post) => (
-        <p> {post.title}</p>
-      ))}
+      <button onClick={() => handleSpeak()}>Tap to speak</button>
+
+      <h1>{userName}</h1>
     </div>
   );
 }

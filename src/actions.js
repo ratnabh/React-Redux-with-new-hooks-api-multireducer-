@@ -1,12 +1,12 @@
-import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-export const vehicleAction = (text) => async (dispatch) => {
+import SpeechRecognition, {
+
+} from "react-speech-recognition";
+export const speechAction = (text) => async (dispatch) => {
   console.log(text);
-  axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
+  axios.get("https://606dc24c603ded00175048a3.mockapi.io/12").then((res) => {
     console.log(res);
-    dispatch({
-      type: "fetch",
-      data: res.data,
-    });
+    SpeechRecognition.startListening({continuous:true});
+    dispatch({ type: "SET_DATA", payload: res.data[0].name });
   });
 };
